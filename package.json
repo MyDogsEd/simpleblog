@@ -4,7 +4,8 @@
   "main": "out/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:build": "tsc && node out/server.js"
+    "dev:build": "tsc && node out/server.js",
+    "start": "node out/server.js"
   },
   "author": "",
   "license": "ISC",
