@@ -42,7 +42,15 @@ app.get('/posts', (req: Request, res: Response) => {
 
 // Display a specific post ID
 app.get('/posts/:id', (req: Request, res: Response) => {
-    res.render('posts')
+    console.log(req.params.id)
+    var post = posts.get(parseInt(req.params.id));
+    console.log(post)
+    res.render('posts', {
+        title: post?.title,
+        author: post?.author,
+        content: post?.content,
+        timestamp: post?.timestamp
+    })
 })
 
 // Add a new post
@@ -54,7 +62,7 @@ app.post('/add', (req: Request, res: Response) => {
             id: newID,
             title: req.body.title,
             content: req.body.content,
-            timestamp: Date.now().toLocaleString(),
+            timestamp: new Date(Date.now()).toLocaleString("en-US", { timeZone: "EST" }),
             author: req.body.author
         } 
         posts.set(newID, newPost)
@@ -64,7 +72,11 @@ app.post('/add', (req: Request, res: Response) => {
         res.status(500).send("Error");
         return;
     }
-    res.status(200).json(posts.get(postid))
+    res.json(posts.get(postid))
+})
+
+app.get('/new', (req: Request, res: Response) => {
+    res.render('new')
 })
 
 
@@ -81,5 +93,4 @@ interface Post {
     content: String
     timestamp: String
     author: String
-
 }

@@ -34,7 +34,15 @@ app.get('/posts', (req, res) => {
 });
 // Display a specific post ID
 app.get('/posts/:id', (req, res) => {
-    res.render('posts');
+    console.log(req.params.id);
+    var post = posts.get(parseInt(req.params.id));
+    console.log(post);
+    res.render('posts', {
+        title: post === null || post === void 0 ? void 0 : post.title,
+        author: post === null || post === void 0 ? void 0 : post.author,
+        content: post === null || post === void 0 ? void 0 : post.content,
+        timestamp: post === null || post === void 0 ? void 0 : post.timestamp
+    });
 });
 // Add a new post
 app.post('/add', (req, res) => {
@@ -45,7 +53,7 @@ app.post('/add', (req, res) => {
             id: newID,
             title: req.body.title,
             content: req.body.content,
-            timestamp: Date.now().toLocaleString(),
+            timestamp: new Date(Date.now()).toLocaleString("en-US", { timeZone: "EST" }),
             author: req.body.author
         };
         posts.set(newID, newPost);
@@ -56,7 +64,10 @@ app.post('/add', (req, res) => {
         res.status(500).send("Error");
         return;
     }
-    res.status(200).json(posts.get(postid));
+    res.json(posts.get(postid));
+});
+app.get('/new', (req, res) => {
+    res.render('new');
 });
 // Start the express server
 app.listen(port, () => {

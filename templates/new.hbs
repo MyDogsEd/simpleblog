@@ -1,0 +1,48 @@
+<div class="container">
+    <div>
+      <div class="mb-3">
+        <label for="postTitle" class="form-label">Post Title</label>
+        <input type="text" class="form-control" id="postTitle" aria-describedby="titleHelp">
+        <div id="titleHelp" class="form-text">Give your post a unique and descriptive title.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="postAuthor" class="form-label">Author</label>
+        <input type="text" class="form-control" id="postAuthor" aria-describedby="authorHelp">
+        <div id="authorHelp" class="form-text">Choose a great pen name.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="postContent" class="form-label">Post Content</label>
+        <textarea class="form-control" id="postContent" aria-describedby="postHelp" rows="5"> </textarea>
+        <div id="titleHelp" class="form-text">What you write is up to you!</div>
+      </div>
+      
+      <button id="submitPostButton" class="btn btn-primary">Submit</button>
+    </div>
+
+    {{!-- Jquery --}}
+    <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+
+    {{!-- Script to handle submitting the post request --}}
+    <script>
+        $('#submitPostButton').on('click', (event) => {
+            $.ajax('/add', {
+                data: JSON.stringify({
+                    title: $('#postTitle').val(),
+                    content: $('#postContent').val(),
+                    author: $('#postAuthor').val()
+                }),
+                contentType : 'application/json',
+                type : 'POST',
+                success: function(response){
+                    window.location.href = "/posts/" + response.id
+                }
+            })
+        })
+
+    </script>
+</div>
