@@ -1,0 +1,9 @@
+<div class="container">
+    {{#if postList}}
+        {{#each postList}}
+            {{> post this}}
+        {{/each}}
+    {{else}}
+        <p>No posts :(</p>
+    {{/if}}
+</div>
